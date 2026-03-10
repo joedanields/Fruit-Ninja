@@ -74,16 +74,15 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
             # Allow mouse control as fallback
-            if event.type == pygame.MOUSEMOTION and not tracker.is_detected:
+            elif event.type == pygame.MOUSEMOTION and not tracker.is_detected:
                 sword.add_point(event.pos)
 
         # Update MediaPipe Tracking
-        hand_pos = tracker.get_position(WIDTH, HEIGHT)
+        hand_pos = tracker.get_position(GameConstants.WIDTH, GameConstants.HEIGHT)
         if hand_pos:
             sword.add_point(hand_pos)
             
             # Simple state transitions using hand presence
-            # e.g., Raise hand to start
             if state in ["START", "GAMEOVER"]:
                 state = "PLAY"
                 active_objects.clear()
@@ -95,57 +94,66 @@ def main():
         screen.blit(background, (0, 0))
 
         if state == "PLAY":
-            # Spawning
+            # Dynamic spawning with difficulty progression
             spawn_timer += 1
-            if spawn_timer > max(40, 100 - score_sys.score):  # Gets faster
+            spawn_delay = calculate_spawn_delay()
+            
+            if spawn_timer > spawn_delay:
                 spawn_object()
                 spawn_timer = 0
 
-            # Update and Draw Objects
-            for obj in active_objects[:]:
+            # Get slice segment once for all collision checks
+            slice_segment = sword.get_slice_segment()
+            
+            # Update and Draw Objects (optimized with list comprehension)
+            objects_to_remove = []
+            
+            for obj in active_objects:
                 obj.update()
                 
-                # Check bounds
-                if obj.y > HEIGHT + 100:
-                    if obj in active_objects:
-                        active_objects.remove(obj)
-                        if isinstance(obj, Fruit):
-                            score_sys.combo_count = 0  # Missed a fruit breaks combo
+                # Check bounds - mark for removal if off screen
+                if obj.y > GameConstants.HEIGHT + 100:
+                    if isinstance(obj, Fruit):
+                        score_sys.combo_count = 0  # Missed a fruit breaks combo
+                    objects_to_remove.append(obj)
                     continue
                 
                 obj.draw(screen)
                 
-                # Check collision if we have a sword segment
-                segment = sword.get_slice_segment()
-                if segment and not obj.is_sliced:
-                    p1, p2 = segment
-                    # Adjust collision radius slightly smaller for better precision
-                    if GameEngine.check_collision(p1, p2, obj.get_center(), obj.radius * 0.8):
+                # Check collision with optimized conditions
+                if slice_segment and not obj.is_sliced and obj.is_active:
+                    p1, p2 = slice_segment
+                    # Use cached center position and adjusted collision radius
+                    if GameEngine.check_collision(
+                        p1, p2, 
+                        obj.get_center(), 
+                        obj.radius * GameConstants.COLLISION_RADIUS_FACTOR
+                    ):
                         obj.is_sliced = True
                         
                         if isinstance(obj, Bomb):
-                            # Boom
-                            particles.spawn(obj.x, obj.y, (255,100,0), count=50)
+                            # Bomb explosion
+                            particles.spawn(obj.center_x, obj.center_y, (255, 100, 0), count=50)
                             state = "GAMEOVER"
                         else:
-                            # Sliced
-                            particles.spawn(obj.x, obj.y, obj.color, count=20)
+                            # Fruit sliced
+                            particles.spawn(obj.center_x, obj.center_y, obj.color, count=20)
                             score_sys.add_score(obj.points)
                         
-                        if obj in active_objects:
-                            active_objects.remove(obj)
+                        objects_to_remove.append(obj)
+            
+            # Batch removal for better performance
+            for obj in objects_to_remove:
+                if obj in active_objects:
+                    active_objects.remove(obj)
 
-            # Updates Particles
+            # Update Particles
             particles.update()
             
             # Draw HUD
             ui.draw_hud(screen, score_sys.score, score_sys.high_score, score_sys.combo_count)
 
         # Draw Particles and Sword (always drawn)
-        for p in particles.particles:
-            # Reusing the particle logic from visuals.py but need to actually draw it here if we want to layer properly
-            # Or just call particles.draw
-            pass
         particles.draw(screen)
         sword.draw(screen)
 
@@ -155,11 +163,11 @@ def main():
         elif state == "GAMEOVER":
             ui.draw_game_over(screen, score_sys.score)
             
-        # Draw Expo Mode
+        # Draw Expo Mode telemetry
         ui.draw_expo_mode(screen, tracker.get_expo_stats(), clock.get_fps())
 
         pygame.display.flip()
-        clock.tick(FPS)
+        clock.tick(GameConstants.FPS)
 
     # Cleanup
     tracker.stop()

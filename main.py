@@ -4,8 +4,8 @@ import random
 
 from hand_tracker import HandTracker
 from game_objects import Fruit, Bomb
-from mechanics import ScoreSystem, GameEngine
-from visuals import ParticleSystem, SwordTrail
+from mechanics import ScoreSystem, GameEngine, DifficultyManager
+from visuals import ParticleSystem, SwordTrail, ScreenShake
 from ui import UI
 
 # Constants for better organization and performance
@@ -13,10 +13,9 @@ class GameConstants:
     WIDTH = 800
     HEIGHT = 600
     FPS = 60
-    BOMB_SPAWN_CHANCE = 0.15
     BASE_SPAWN_DELAY = 100
-    MIN_SPAWN_DELAY = 40
-    SPAWN_SPEED_INCREASE = 1  # How much faster spawning gets per point
+    MIN_SPAWN_DELAY = 30
+    SPAWN_SPEED_INCREASE = 0.5  # How much faster spawning gets per point
     COLLISION_RADIUS_FACTOR = 0.8  # Collision precision factor
     MAX_OBJECTS = 30  # Prevent memory issues with too many objects
 
@@ -41,6 +40,7 @@ def main():
     score_sys = ScoreSystem()
     particles = ParticleSystem()
     sword = SwordTrail(max_length=12)
+    screen_shake = ScreenShake()
 
     # Game State
     active_objects = []
@@ -50,22 +50,27 @@ def main():
     running = True
     
     def spawn_object():
-        """Spawn a new fruit or bomb"""
+        """Spawn a new fruit or bomb with dynamic difficulty"""
         if len(active_objects) >= GameConstants.MAX_OBJECTS:
             return  # Prevent spawning too many objects
-            
-        # BOMB_SPAWN_CHANCE for bomb, otherwise fruit
-        if random.random() < GameConstants.BOMB_SPAWN_CHANCE:
+        
+        # Get dynamic bomb chance based on score
+        bomb_chance = DifficultyManager.get_bomb_chance(score_sys.score)
+        
+        if random.random() < bomb_chance:
             active_objects.append(Bomb(GameConstants.WIDTH, GameConstants.HEIGHT))
         else:
             active_objects.append(Fruit(GameConstants.WIDTH, GameConstants.HEIGHT))
     
     def calculate_spawn_delay():
-        """Calculate dynamic spawn delay based on score"""
+        """Calculate dynamic spawn delay based on score and difficulty"""
+        speed_mult = DifficultyManager.get_speed_multiplier(score_sys.score)
         delay = max(
             GameConstants.MIN_SPAWN_DELAY,
             GameConstants.BASE_SPAWN_DELAY - score_sys.score * GameConstants.SPAWN_SPEED_INCREASE
         )
+        # Apply difficulty speed multiplier
+        delay = delay / speed_mult
         return int(delay)
 
     while running:
@@ -89,9 +94,12 @@ def main():
                 score_sys.reset()
         else:
             sword.add_point(None)
+        
+        # Update screen shake
+        screen_shake.update()
             
-        # Draw background
-        screen.blit(background, (0, 0))
+        # Draw background with shake effect
+        screen_shake.apply_to_screen(screen, background)
 
         if state == "PLAY":
             # Dynamic spawning with difficulty progression
@@ -132,8 +140,9 @@ def main():
                         obj.is_sliced = True
                         
                         if isinstance(obj, Bomb):
-                            # Bomb explosion
+                            # Bomb explosion with screen shake
                             particles.spawn(obj.center_x, obj.center_y, (255, 100, 0), count=50)
+                            screen_shake.trigger(intensity=15, duration=15)
                             state = "GAMEOVER"
                         else:
                             # Fruit sliced
@@ -150,8 +159,12 @@ def main():
             # Update Particles
             particles.update()
             
+            # Get current difficulty for display
+            current_difficulty = DifficultyManager.get_difficulty(score_sys.score)
+            
             # Draw HUD
-            ui.draw_hud(screen, score_sys.score, score_sys.high_score, score_sys.combo_count)
+            ui.draw_hud(screen, score_sys.score, score_sys.high_score, 
+                       score_sys.combo_count, current_difficulty)
 
         # Draw Particles and Sword (always drawn)
         particles.draw(screen)

@@ -65,7 +65,7 @@ class UI:
         if int(time.time() * 2) % 2 == 0:
             self.draw_text(screen, "[ LOWER AND RAISE HAND TO RESTART ]", self.font_small, (200, 200, 200), self.width//2, self.height - 100)
 
-    def draw_hud(self, screen, score, high_score, combo):
+    def draw_hud(self, screen, score, high_score, combo, difficulty=None):
         # Score background panel
         s_panel = pygame.Surface((220, 80), pygame.SRCALPHA)
         pygame.draw.rect(s_panel, (0, 0, 0, 150), s_panel.get_rect(), border_radius=10)
@@ -74,10 +74,39 @@ class UI:
         self.draw_text(screen, f"SCORE: {score}", self.font_medium, (255, 255, 255), 130, 45)
         self.draw_text(screen, f"HIGH: {high_score}", self.font_small, (150, 150, 150), 130, 80)
         
-        # Dynamic combo display
+        # Difficulty indicator
+        if difficulty:
+            diff_colors = {
+                "Easy": (0, 255, 100),
+                "Medium": (255, 200, 0),
+                "Hard": (255, 140, 0),
+                "Expert": (255, 80, 80),
+                "Master": (200, 0, 255)
+            }
+            diff_name = difficulty.get('name', 'Easy')
+            diff_color = diff_colors.get(diff_name, (255, 255, 255))
+            
+            diff_panel = pygame.Surface((140, 35), pygame.SRCALPHA)
+            pygame.draw.rect(diff_panel, (0, 0, 0, 150), diff_panel.get_rect(), border_radius=8)
+            screen.blit(diff_panel, (self.width - 160, 20))
+            
+            diff_surf = self.font_small.render(diff_name.upper(), True, diff_color)
+            diff_rect = diff_surf.get_rect(center=(self.width - 90, 37))
+            screen.blit(diff_surf, diff_rect)
+        
+        # Dynamic combo display with enhanced effects
         if combo > 1:
-            combo_scale = min(1.0 + (combo * 0.05), 1.5) # Fake scale effect via pulse amplitude
+            combo_scale = min(1.0 + (combo * 0.05), 1.5)
             pulse = math.sin(time.time() * 15) * 3 * combo_scale
+            
+            # Glow effect for high combos
+            if combo >= 5:
+                glow_color = (255, 100, 0) if combo >= 10 else (255, 200, 0)
+                c_glow = self.font_large.render(f"x{combo} COMBO!", True, glow_color)
+                for offset in [(2, 2), (-2, 2), (2, -2), (-2, -2)]:
+                    c_glow_rect = c_glow.get_rect(center=(self.width//2 + offset[0], 80 + pulse + offset[1]))
+                    screen.blit(c_glow, c_glow_rect)
+            
             c_text = self.font_large.render(f"x{combo} COMBO!", True, (255, 215, 0))
             c_rect = c_text.get_rect(center=(self.width//2, 80 + pulse))
             screen.blit(c_text, c_rect)

@@ -1,0 +1,72 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ai-fruit-ninja"
+version = "1.0.0"
+description = "AI-powered Fruit Ninja game with hand tracking using MediaPipe and Pygame"
+readme = "README.md"
+authors = [
+    {name = "Joe Danields", email = "joedanields@example.com"}
+]
+license = {text = "MIT"}
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: End Users/Desktop",
+    "Topic :: Games/Entertainment :: Arcade",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Environment :: GPU",
+]
+keywords = ["game", "fruit-ninja", "hand-tracking", "mediapipe", "computer-vision", "pygame"]
+requires-python = ">=3.8"
+dependencies = [
+    "pygame>=2.0.0",
+    "opencv-python>=4.5.0",
+    "mediapipe>=0.10.0",
+    "numpy>=1.19.0,<2.0",
+    "importlib-resources>=5.0.0; python_version<'3.9'",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "black>=22.0.0",
+    "flake8>=4.0.0",
+    "mypy>=0.950",
+]
+build = [
+    "build>=0.10.0",
+    "twine>=4.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/joedanields/Fruit-Ninja"
+Repository = "https://github.com/joedanields/Fruit-Ninja"
+"Bug Tracker" = "https://github.com/joedanields/Fruit-Ninja/issues"
+
+[project.scripts]
+ai-fruit-ninja = "ai_fruit_ninja.main:run_game"
+
+[tool.setuptools]
+packages = ["ai_fruit_ninja"]
+
+[tool.setuptools.package-data]
+ai_fruit_ninja = ["assets/*"]
+
+[tool.black]
+line-length = 100
+target-version = ['py38', 'py39', 'py310', 'py311']
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false

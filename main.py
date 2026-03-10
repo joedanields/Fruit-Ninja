@@ -8,28 +8,36 @@ from mechanics import ScoreSystem, GameEngine
 from visuals import ParticleSystem, SwordTrail
 from ui import UI
 
+# Constants for better organization and performance
+class GameConstants:
+    WIDTH = 800
+    HEIGHT = 600
+    FPS = 60
+    BOMB_SPAWN_CHANCE = 0.15
+    BASE_SPAWN_DELAY = 100
+    MIN_SPAWN_DELAY = 40
+    SPAWN_SPEED_INCREASE = 1  # How much faster spawning gets per point
+    COLLISION_RADIUS_FACTOR = 0.8  # Collision precision factor
+    MAX_OBJECTS = 30  # Prevent memory issues with too many objects
+
 def main():
     pygame.init()
     
-    # Constants
-    WIDTH, HEIGHT = 800, 600
-    FPS = 60
-    
-    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    screen = pygame.display.set_mode((GameConstants.WIDTH, GameConstants.HEIGHT))
     pygame.display.set_caption("AI Fruit Ninja - Project Expo")
     clock = pygame.time.Clock()
     
     # Try to load background
     try:
         background = pygame.image.load("assets/background.jpg").convert()
-        background = pygame.transform.scale(background, (WIDTH, HEIGHT))
+        background = pygame.transform.scale(background, (GameConstants.WIDTH, GameConstants.HEIGHT))
     except:
-        background = pygame.Surface((WIDTH, HEIGHT))
+        background = pygame.Surface((GameConstants.WIDTH, GameConstants.HEIGHT))
         background.fill((20, 20, 40))
 
     # Initialize Modules
     tracker = HandTracker(camera_index=0, smoothing_factor=0.4)
-    ui = UI(WIDTH, HEIGHT)
+    ui = UI(GameConstants.WIDTH, GameConstants.HEIGHT)
     score_sys = ScoreSystem()
     particles = ParticleSystem()
     sword = SwordTrail(max_length=12)
@@ -42,11 +50,23 @@ def main():
     running = True
     
     def spawn_object():
-        # 15% chance for bomb, otherwise fruit
-        if random.random() < 0.15:
-            active_objects.append(Bomb(WIDTH, HEIGHT))
+        """Spawn a new fruit or bomb"""
+        if len(active_objects) >= GameConstants.MAX_OBJECTS:
+            return  # Prevent spawning too many objects
+            
+        # BOMB_SPAWN_CHANCE for bomb, otherwise fruit
+        if random.random() < GameConstants.BOMB_SPAWN_CHANCE:
+            active_objects.append(Bomb(GameConstants.WIDTH, GameConstants.HEIGHT))
         else:
-            active_objects.append(Fruit(WIDTH, HEIGHT))
+            active_objects.append(Fruit(GameConstants.WIDTH, GameConstants.HEIGHT))
+    
+    def calculate_spawn_delay():
+        """Calculate dynamic spawn delay based on score"""
+        delay = max(
+            GameConstants.MIN_SPAWN_DELAY,
+            GameConstants.BASE_SPAWN_DELAY - score_sys.score * GameConstants.SPAWN_SPEED_INCREASE
+        )
+        return int(delay)
 
     while running:
         # Event handling

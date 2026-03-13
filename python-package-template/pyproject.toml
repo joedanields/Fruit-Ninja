@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "package-name"
+version = "0.1.0"
+description = "A professional starter template for a PyPI-ready Python library."
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT"
+authors = [
+    { name = "Your Name", email = "your.email@example.com" }
+]
+dependencies = [
+    "numpy>=1.26.0",
+    "pandas>=2.2.0",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+]
+keywords = ["pypi", "template", "setuptools", "numpy", "pandas"]
+
+[project.optional-dependencies]
+dev = [
+    "build>=1.2.2",
+    "pytest>=8.3.0",
+    "twine>=5.1.1",
+]
+
+[project.urls]
+Homepage = "https://example.com/package-name"
+Repository = "https://github.com/yourname/package-name"
+Issues = "https://github.com/yourname/package-name/issues"
+
+[tool.setuptools]
+packages = ["package_name"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

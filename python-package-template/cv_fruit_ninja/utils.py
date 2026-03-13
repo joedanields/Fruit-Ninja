@@ -1,4 +1,4 @@
-"""Utility helpers for package_name."""
+"""Utility helpers for cv_fruit_ninja."""
 
 from __future__ import annotations
 

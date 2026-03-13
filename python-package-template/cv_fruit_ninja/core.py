@@ -1,4 +1,4 @@
-"""Core functionality for package_name."""
+"""Core functionality for cv_fruit_ninja."""
 
 from __future__ import annotations
 

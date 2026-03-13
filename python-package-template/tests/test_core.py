@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 
-from package_name.core import DataAnalyzer, summarize_dataframe
+from cv_fruit_ninja.core import DataAnalyzer, summarize_dataframe
 
 
 def test_summarize_dataframe_returns_expected_metrics():

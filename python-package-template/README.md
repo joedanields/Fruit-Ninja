@@ -1,6 +1,6 @@
-# package_name
+# Cv-Fruit-Ninja
 
-package_name is a professional starter template for a PyPI-ready Python library built with modern setuptools packaging.
+Cv-Fruit-Ninja is a professional starter template for a PyPI-ready Python library built with modern setuptools packaging.
 
 ## Features
 
@@ -13,7 +13,7 @@ package_name is a professional starter template for a PyPI-ready Python library 
 ## Installation
 
 ```bash
-pip install package-name
+pip install cv-fruit-ninja
 ```
 
 For local development:
@@ -25,7 +25,7 @@ pip install -e ".[dev]"
 ## Example Usage
 
 ```python
-from package_name import summarize_dataframe
+from cv_fruit_ninja import summarize_dataframe
 
 summary = summarize_dataframe(
     {
@@ -49,4 +49,4 @@ python -m build
 python -m twine upload dist/*
 ```
 
-Replace the placeholder package name, author, and email in `pyproject.toml` before publishing.
+Replace the placeholder author and email in `pyproject.toml` before publishing.

@@ -1,4 +1,4 @@
-"""Top-level package for package_name."""
+"""Top-level package for cv_fruit_ninja."""
 
 from .core import DataAnalyzer, summarize_dataframe
 

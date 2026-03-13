@@ -24,7 +24,7 @@ An AI-powered Fruit Ninja game featuring real-time hand tracking with MediaPipe,
 ### Method 1: Install from PyPI (Recommended)
 
 ```bash
-pip install ai-fruit-ninja
+pip install cv-fruit-ninja
 ```
 
 ### Method 2: Install from Source
@@ -45,7 +45,7 @@ pip install -e .
 python -m build
 
 # Install the wheel
-pip install dist/ai_fruit_ninja-1.0.0-py3-none-any.whl
+pip install dist/cv_fruit_ninja-1.0.0-py3-none-any.whl
 ```
 
 ## Quick Start
@@ -55,7 +55,7 @@ pip install dist/ai_fruit_ninja-1.0.0-py3-none-any.whl
 After installation, simply run:
 
 ```bash
-ai-fruit-ninja
+cv-fruit-ninja
 ```
 
 Or use Python module execution:
@@ -118,7 +118,7 @@ run_game()
 ### Project Structure
 
 ```
-ai-fruit-ninja/
+cv-fruit-ninja/
 ├── ai_fruit_ninja/          # Main package directory
 │   ├── __init__.py          # Package initialization
 │   ├── __main__.py          # Module entry point
@@ -164,8 +164,8 @@ python -m build
 ```
 
 This creates:
-- `dist/ai_fruit_ninja-1.0.0.tar.gz` (source distribution)
-- `dist/ai_fruit_ninja-1.0.0-py3-none-any.whl` (wheel)
+- `dist/cv_fruit_ninja-1.0.0.tar.gz` (source distribution)
+- `dist/cv_fruit_ninja-1.0.0-py3-none-any.whl` (wheel)
 
 #### Install Locally
 
@@ -174,7 +174,7 @@ This creates:
 pip install -e .
 
 # Or install from wheel
-pip install dist/ai_fruit_ninja-1.0.0-py3-none-any.whl
+pip install dist/cv_fruit_ninja-1.0.0-py3-none-any.whl
 ```
 
 #### Run Tests (if available)
@@ -192,7 +192,7 @@ pytest tests/
 python -m twine upload --repository testpypi dist/*
 
 # Install from Test PyPI to verify
-pip install --index-url https://test.pypi.org/simple/ ai-fruit-ninja
+pip install --index-url https://test.pypi.org/simple/ cv-fruit-ninja
 ```
 
 #### Production PyPI
@@ -202,7 +202,7 @@ pip install --index-url https://test.pypi.org/simple/ ai-fruit-ninja
 python -m twine upload dist/*
 
 # Verify installation
-pip install ai-fruit-ninja
+pip install cv-fruit-ninja
 ```
 
 ## Configuration
@@ -314,7 +314,7 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -e ".[dev]"
 
 # Run the game
-ai-fruit-ninja
+cv-fruit-ninja
 ```
 
 ## License
@@ -346,3 +346,4 @@ If you encounter any issues or have questions:
 **Built with ❤️ using Python, MediaPipe, and Pygame**
 
 *Optimized for Project Expo - Showcasing AI, Computer Vision, and Game Development*
+

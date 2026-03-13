@@ -226,3 +226,4 @@ Contributions welcome! Areas for improvement:
 ---
 
 **Optimized for Project Expo** - Showcasing AI, Computer Vision, and Game Development
+

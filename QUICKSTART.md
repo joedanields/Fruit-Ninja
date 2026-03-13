@@ -6,7 +6,7 @@ Choose one of the following methods:
 
 ### Option 1: Install from PyPI (Coming Soon)
 ```bash
-pip install ai-fruit-ninja
+pip install cv-fruit-ninja
 ```
 
 ### Option 2: Install from Source
@@ -27,7 +27,7 @@ pip install -e .
 
 ### Method 1: CLI Command
 ```bash
-ai-fruit-ninja
+cv-fruit-ninja
 ```
 
 ### Method 2: Python Module
@@ -60,7 +60,7 @@ python test_installation.py
 ### Install Locally
 ```bash
 # Install from wheel
-pip install dist/ai_fruit_ninja-1.0.0-py3-none-any.whl
+pip install dist/cv_fruit_ninja-1.0.0-py3-none-any.whl
 
 # Or editable mode for development
 pip install -e .
@@ -68,7 +68,7 @@ pip install -e .
 
 ## Troubleshooting
 
-### Issue: Command 'ai-fruit-ninja' not found
+### Issue: Command 'cv-fruit-ninja' not found
 **Solution**: Make sure package is installed and Python scripts directory is in PATH
 ```bash
 pip install -e .
@@ -122,3 +122,4 @@ python -m twine upload dist/*
 For issues and questions:
 - GitHub Issues: https://github.com/joedanields/Fruit-Ninja/issues
 - Email: joedanields@example.com
+

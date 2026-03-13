@@ -37,17 +37,17 @@ def test_cli_command():
     print("\n🧪 Testing CLI command...")
     try:
         result = subprocess.run(
-            ["ai-fruit-ninja", "--help"],
+            ["cv-fruit-ninja", "--help"],
             capture_output=True,
             text=True,
             timeout=5
         )
         # The game doesn't have --help, so it will try to start
         # We can check if the command exists
-        print("   ✅ CLI command 'ai-fruit-ninja' is available")
+        print("   ✅ CLI command 'cv-fruit-ninja' is available")
         return True
     except FileNotFoundError:
-        print("   ❌ CLI command 'ai-fruit-ninja' not found")
+        print("   ❌ CLI command 'cv-fruit-ninja' not found")
         print("   ℹ️  Try: pip install -e . or pip install .")
         return False
     except subprocess.TimeoutExpired:
@@ -141,7 +141,7 @@ def show_summary(results):
     
     if passed == total:
         print("\n🎉 All tests passed! Package is ready to use.")
-        print("   Run the game with: ai-fruit-ninja")
+        print("   Run the game with: cv-fruit-ninja")
     else:
         print("\n⚠️  Some tests failed. Please check the output above.")
     

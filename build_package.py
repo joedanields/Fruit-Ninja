@@ -60,7 +60,7 @@ def show_install_instructions():
     print("=" * 60)
     print("\n📝 Installation options:")
     print("\n1. Install locally:")
-    print("   pip install dist/ai_fruit_ninja-1.0.0-py3-none-any.whl")
+    print("   pip install dist/cv_fruit_ninja-1.0.0-py3-none-any.whl")
     print("\n2. Install in editable mode (development):")
     print("   pip install -e .")
     print("\n3. Test PyPI upload:")
@@ -68,7 +68,7 @@ def show_install_instructions():
     print("\n4. PyPI upload:")
     print("   python -m twine upload dist/*")
     print("\n5. Run the game:")
-    print("   ai-fruit-ninja")
+    print("   cv-fruit-ninja")
     print("=" * 60)
 
 

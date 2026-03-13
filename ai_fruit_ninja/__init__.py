@@ -17,7 +17,7 @@ Usage:
     >>> run_game()
 
 CLI:
-    $ ai-fruit-ninja
+    $ cv-fruit-ninja
 """
 
 __version__ = "1.0.0"

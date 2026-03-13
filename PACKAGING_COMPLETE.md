@@ -60,7 +60,7 @@ Fruit-Ninja/
 - Created proper `__init__.py` and `__main__.py`
 
 ### 2. Entry Points ✅
-- **CLI Command**: `ai-fruit-ninja` runs the game
+- **CLI Command**: `cv-fruit-ninja` runs the game
 - **Module Execution**: `python -m ai_fruit_ninja` works
 - **Library Import**: `from ai_fruit_ninja import run_game`
 
@@ -103,7 +103,7 @@ Fruit-Ninja/
 
 ### Method 1: Install from PyPI (when published)
 ```bash
-pip install ai-fruit-ninja
+pip install cv-fruit-ninja
 ```
 
 ### Method 2: Install from Source
@@ -120,14 +120,14 @@ pip install -e .
 ### Method 4: Install from Wheel
 ```bash
 python -m build
-pip install dist/ai_fruit_ninja-1.0.0-py3-none-any.whl
+pip install dist/cv_fruit_ninja-1.0.0-py3-none-any.whl
 ```
 
 ## 🚀 Running the Game
 
 ### CLI Command (Recommended)
 ```bash
-ai-fruit-ninja
+cv-fruit-ninja
 ```
 
 ### Python Module
@@ -158,8 +158,8 @@ python -m build
 ```
 
 ### Output
-- `dist/ai_fruit_ninja-1.0.0.tar.gz` (source distribution)
-- `dist/ai_fruit_ninja-1.0.0-py3-none-any.whl` (wheel)
+- `dist/cv_fruit_ninja-1.0.0.tar.gz` (source distribution)
+- `dist/cv_fruit_ninja-1.0.0-py3-none-any.whl` (wheel)
 
 ## 🧪 Testing Installation
 
@@ -215,7 +215,7 @@ Uses `importlib.resources` with fallbacks:
 Configured in `pyproject.toml`:
 ```toml
 [project.scripts]
-ai-fruit-ninja = "ai_fruit_ninja.main:run_game"
+cv-fruit-ninja = "ai_fruit_ninja.main:run_game"
 ```
 
 ### Module Execution
@@ -277,7 +277,7 @@ Build:
 1. Install in editable mode: `pip install -e .`
 2. Make changes to code
 3. Test: `python test_installation.py`
-4. Run: `ai-fruit-ninja`
+4. Run: `cv-fruit-ninja`
 
 ### For Distribution
 1. Build: `python build_package.py`
@@ -287,8 +287,8 @@ Build:
 5. Upload to Production PyPI
 
 ### For Users
-1. Install: `pip install ai-fruit-ninja`
-2. Run: `ai-fruit-ninja`
+1. Install: `pip install cv-fruit-ninja`
+2. Run: `cv-fruit-ninja`
 3. Enjoy! 🎮
 
 ## 📝 Important Notes
@@ -326,7 +326,7 @@ pip install --force-reinstall .
 
 ✅ Package structure follows Python standards
 ✅ Can be installed with `pip install .`
-✅ CLI command `ai-fruit-ninja` works
+✅ CLI command `cv-fruit-ninja` works
 ✅ Module execution `python -m ai_fruit_ninja` works
 ✅ Assets load correctly when installed
 ✅ Can be built and distributed
@@ -353,7 +353,7 @@ The AI Fruit Ninja game is now a professional, pip-installable Python package!
 pip install -e .
 
 # Run
-ai-fruit-ninja
+cv-fruit-ninja
 
 # Or
 python -m ai_fruit_ninja
@@ -365,3 +365,4 @@ python build_package.py
 ```
 
 Enjoy your professional Python package! 🎮🥷🍎
+
